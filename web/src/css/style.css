@@ -421,6 +421,7 @@ td.rdtYear:hover {
 .table__cell {
   padding: 0;
 }
+
 .table__cell--align-left {
   text-align: left;
 }
@@ -946,4 +947,133 @@ input[type=radio] {
   left: 0;
   right: 0;
   margin: auto;
+}
+
+/***********************************************/
+
+.roomsListWrapper{
+  width: 70vw;
+  border: 2px solid #A5A5A5;
+}
+
+.roomsListHeader{
+  width: 100%;
+  height: 50px;
+  background-color: #a5a5a5;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.roomsListTitle{
+  color: #000;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.roomsListColTitleWrapper{
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid rgb(87, 87, 87);
+  box-sizing: border-box;
+  display: flex;
+}
+
+.roomsListColWrapper{
+  width: 100%;
+  height: 80px;
+  border-bottom: 2px solid green;
+  box-sizing: border-box;
+  display: flex;
+}
+
+.roomsListColLeft{
+  width: 8%;
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.roomsListAssetsLeft{
+  width: 12%;
+  box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  border-left: 2px solid green;
+}
+
+.roomsListColRight{
+  width: 80%;
+  display: flex;
+}
+
+.interval{
+  border-left: 2px solid green;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: bold;
+  justify-content: center;
+}
+
+.subInterval{
+  width: 25%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.subInterval:hover{
+  background-color: #85ffc7;
+}
+
+.roomNameWrapper{
+  width: 8%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 10px;
+  box-sizing: border-box;
+}
+
+.roomName{
+  color: #000;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.roomAssetsWrapper{
+  width: 12%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding-left: 10px;
+  box-sizing: border-box;
+  border-left: 2px solid green;
+}
+
+.assetName{
+  color: #000;
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.roomInventary{
+  margin: 0;
+}
+
+.roomInventary{
+  font-size: 16px;
+  font-weight: 500;
 }

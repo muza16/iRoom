@@ -1,135 +1,119 @@
 import React from 'react'
 import RoomRow from './RoomRow'
 import { roomSorter } from '../helpers/sorter'
+import { formatAssetName, dailyBookings, bookingArray } from '../helpers/rooms'
+import moment from 'moment'
 
-const RoomsList = props => (
-  <table className="table">
-    <tr className="table__row table__row--header">
-      <th scope="colgroup" colSpan="15" className="table__cell--header table__cell--level table__cell--align-left">
-        Level Eight
-      </th>
-    </tr>
-    <tr className="table__row table__row--subheader">
-      <th scope="col" className="table__cell--header table__cell--align-left">
-        Room
-      </th>
-      <th scope="col" className="table__cell--header">
-        8am
-      </th>
-      <th scope="col" className="table__cell--header">
-        9am
-      </th>
-      <th scope="col" className="table__cell--header">
-        10am
-      </th>
-      <th scope="col" className="table__cell--header">
-        11am
-      </th>
-      <th scope="col" className="table__cell--header">
-        12pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        1pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        2pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        3pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        4pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        5pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        6pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        7pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        8pm
-      </th>
-    </tr>
-    <tbody className="table__body">
-      {props.rooms &&
-        roomSorter(props.rooms, '8').map(room => (
-          <RoomRow
-            key={room._id}
-            room={room}
-            bookings={room.bookings}
-            date={props.date === null ? new Date() : props.date}
-            onShowBooking={props.onShowBooking}
-            onSetRoom={props.onSetRoom}
-          />
-        ))}
-    </tbody>
-    <tr className="table__row table__row--header">
-      <th scope="colgroup" colSpan="15" className="table__cell--header table__cell--level table__cell--align-left">
-        Level Thirteen
-      </th>
-    </tr>
-    <tr className="table__row table__row--subheader">
-      <th scope="col" className="table__cell--header table__cell--width table__cell--align-left">
-        Room
-      </th>
-      <th scope="col" className="table__cell--header">
-        8am
-      </th>
-      <th scope="col" className="table__cell--header">
-        9am
-      </th>
-      <th scope="col" className="table__cell--header">
-        10am
-      </th>
-      <th scope="col" className="table__cell--header">
-        11am
-      </th>
-      <th scope="col" className="table__cell--header">
-        12pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        1pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        2pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        3pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        4pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        5pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        6pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        7pm
-      </th>
-      <th scope="col" className="table__cell--header">
-        8pm
-      </th>
-    </tr>
-    <tbody className="table__body">
-      {props.rooms &&
-        roomSorter(props.rooms, '13').map(room => (
-          <RoomRow
-            key={room._id}
-            room={room}
-            bookings={room.bookings}
-            date={props.date === null ? new Date() : props.date}
-            onShowBooking={props.onShowBooking}
-            onSetRoom={props.onSetRoom}
-          />
-        ))
+const isMeetingNow = (bookings) => {
+  const hours = [8,9,10,11,12,13,14,15,16,17,18,19,20]
+  const hoursWithMinutes = hours.map(hour => {
+    return [
+      {
+        hours: hour,
+        minutes: 0
+      },
+      {
+        hours: hour,
+        minutes: 15
+      },
+      {
+        hours: hour,
+        minutes: 30
+      },
+      {
+        hours: hour,
+        minutes: 45
       }
-    </tbody>
-  </table>
-)
+    ]
+  })
+  hoursWithMinutes.forEach((time, id) => {
+    bookings.forEach(booking => {
+      const hours = moment(booking.bookingStart).hours() + 3
+      const minutes = moment(booking.bookingStart).minutes()
+      console.log(time, hours, minutes)
+    })
+  })
+}
+
+const RoomsList = (props) => {
+  const date = props.date
+  const rooms = props.rooms
+  const timings = [8,9,10,11,12,13,14,15,16,17,18,19,20]
+
+  
+  return (
+    <div className='roomsListWrapper'>
+      <div className='roomsListHeader'>
+        <p className='roomsListTitle'>Level Eight</p>
+      </div>
+      <div className='roomsListColTitleWrapper'>
+          <div className='roomsListColLeft'>
+            Room
+          </div>
+          <div className='roomsListAssetsLeft'>
+            Assets
+          </div>
+          <div className='roomsListColRight'>
+            {
+              timings.map(timing => {
+                return (
+                  <div className='interval' style={{width: `${100/timings.length}%`}}>
+                    {timing}
+                  </div>
+                )
+              })
+            }
+          </div>
+      </div>
+      {
+        rooms.map(room => {
+          const assets = room.assets
+          const todayBookings = dailyBookings(props.date, room.bookings)
+          isMeetingNow(todayBookings)
+          return (
+            <div className='roomsListColWrapper'>
+                <div className='roomNameWrapper'>
+                  <p className='roomName'>{room.name}</p>
+                </div>
+                <div className='roomAssetsWrapper'>
+                  {
+                    Object.keys(assets)
+                    .filter(asset => assets[asset])
+                    .map(asset => {
+                      return(
+                        <p className='assetName'>{formatAssetName(asset)}</p>
+                      )
+                    })
+                  }
+                </div>
+                <div className='roomsListColRight'>
+                  {
+                    timings.map(timing => {
+                      console.log(todayBookings)
+                      return (
+                        <div className='interval' style={{width: `${100/timings.length}%`}}>
+                          {
+                            [0,15,30,45].map(subTiming => {
+                              const currentHours = timing
+                              const currentMinutes = subTiming
+                              console.log(currentHours, currentMinutes)
+                              return (
+                                <div className='subInterval'>
+                                </div>
+                              )
+                            })
+                          }
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+            </div>
+          )
+        })
+      }
+    </div>
+  )
+}
 
 export default RoomsList
